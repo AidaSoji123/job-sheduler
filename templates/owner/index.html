@@ -1,0 +1,162 @@
+{% extends 'owner/base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+            <!--Main-->
+            <main class="bg-white-300 flex-1 p-3 overflow-hidden">
+
+                <div class="flex flex-col">
+                    <!-- Stats Row Starts Here -->
+                    <div class="flex flex-1 flex-col md:flex-row lg:flex-row mx-2">
+                        <div class="shadow-lg bg-red-vibrant border-l-8 hover:bg-red-vibrant-dark border-red-vibrant-dark mb-2 p-2 md:w-1/4 mx-2 ">
+                            <div class="p-4 flex flex-col">
+                                <a href="#" class="no-underline text-white text-2xl">
+                                    244
+                                </a>
+                                <a href="#" class="no-underline text-white text-lg">
+                                    Total Jobs
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="shadow bg-info border-l-8 hover:bg-info-dark border-info-dark mb-2 p-2 md:w-1/4 mx-2">
+                            <div class="p-4 flex flex-col">
+                                <a href="#" class="no-underline text-white text-2xl">
+                                    9
+                                </a>
+                                <a href="#" class="no-underline text-white text-lg">
+                                    Today's Jobs
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="shadow bg-warning border-l-8 hover:bg-warning-dark border-warning-dark mb-2 p-2 md:w-1/4 mx-2">
+                            <div class="p-4 flex flex-col">
+                                <a href="#" class="no-underline text-white text-2xl">
+                                    90
+                                </a>
+                                <a href="#" class="no-underline text-white text-lg">
+                                    Upcoming Jobs
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="shadow bg-success border-l-8 hover:bg-success-dark border-success-dark mb-2 p-2 md:w-1/4 mx-2">
+                            <div class="p-4 flex flex-col">
+                                <a href="#" class="no-underline text-white text-2xl">
+                                    150
+                                </a>
+                                <a href="#" class="no-underline text-white text-lg">
+                                    Completed Jobs
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- /Stats Row Ends Here -->
+                 
+                    <!--alerts-->
+
+                  <div class=" row flex m-3 items-center mb-2 bg-blue-500 text-white text-sm font-bold px-4 py-3" role="alert">
+                    <div class="col-md-1">
+                    <img src= "{% static './assets/images/customer.png'%}" alt="..." class="mt-3"/>
+                    
+                    </div>
+                    <div class="col-md-10"><span class="">Customers</span></div>
+                    <div class="col-md-1"> <img src= "{% static './assets/images/Add.png'%}" alt="..." class="mt-3"/></div>
+                </div>
+
+               
+                        <div class=" row flex m-3 items-center mb-2 bg-green-500 text-white text-sm font-bold px-4 py-3" role="alert">
+                            <div class="col-md-1">
+                            <img src= "{% static './assets/images/employee.png'%}" alt="..." />
+                            </div>
+                            <div class="col-md-10"><span class="mt-3 ms-3">Employees</span></div>
+                            <div class="col-md-1"> <img src= "{% static './assets/images/Add.png'%}" alt="..." class="mt-3"/></div>
+                        </div>
+             
+                 
+                  
+<!-- Filter Section -->
+<div class="flex justify-between items-center bg-gray-200 p-3 rounded mb-4">
+    <div>
+        <label for="statusFilter" class="mr-2 font-bold">Filter by Status:</label>
+        <select id="statusFilter" class="p-2 border rounded">
+            <option value="all">All</option>
+            <option value="completed">Completed</option>
+            <option value="pending">Pending</option>
+        </select>
+    </div>
+    <div>
+        <label for="timeFilter" class="mr-2 font-bold">Filter by Time:</label>
+        <select id="timeFilter" class="p-2 border rounded">
+            <option value="all">All Time</option>
+            <option value="day">Today</option>
+            <option value="week">This Week</option>
+            <option value="month">This Month</option>
+            <option value="year">This Year</option>
+        </select>
+    </div>
+    <button onclick="filterJobs()" class="bg-teal-500 text-white px-4 py-2 rounded">Apply Filter</button>
+</div>
+
+<!-- Job Tables (Today's Job & Pending Jobs) -->
+<div id="jobContainer">
+    <table class="w-full border-collapse border border-gray-300">
+        <thead>
+            <tr class="bg-gray-300">
+                <th class="border border-gray-300 p-2">Job Title</th>
+                <th class="border border-gray-300 p-2">Status</th>
+                <th class="border border-gray-300 p-2">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="border border-gray-300 p-2">Job 1</td>
+                <td class="border border-gray-300 p-2">
+                    <select class="status-select">
+                        <option value="completed">Completed</option>
+                        <option value="pending">Pending</option>
+                    </select>
+                </td>
+                <td class="border border-gray-300 p-2">2025-01-31</td>
+            </tr>
+            <tr>
+                <td class="border border-gray-300 p-2">Job 2</td>
+                <td class="border border-gray-300 p-2">
+                    <select class="status-select">
+                        <option value="completed">Completed</option>
+                        <option value="pending">Pending</option>
+                    </select>
+                </td>
+                <td class="border border-gray-300 p-2">2025-01-30</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+function filterJobs() {
+    const statusFilter = document.getElementById("statusFilter").value;
+    const timeFilter = document.getElementById("timeFilter").value;
+    
+    document.querySelectorAll("tbody tr").forEach(row => {
+        const statusSelect = row.querySelector(".status-select");
+        const statusValue = statusSelect ? statusSelect.value : "pending";
+        const statusMatch = statusFilter === "all" || statusFilter === statusValue;
+        
+        // Placeholder for date-based filtering (adjust as needed)
+        const timeMatch = timeFilter === "all"; 
+        
+        row.style.display = statusMatch && timeMatch ? "table-row" : "none";
+    });
+}
+</script>
+           
+            </main>
+            <!--/Main-->
+        </div>
+   
+{% endblock content %}

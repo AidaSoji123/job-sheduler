@@ -1,0 +1,42 @@
+{% extends 'owner/base.html' %}
+{% block content %}
+<div class="container mx-auto p-6">
+    <h2 class="text-2xl font-semibold mb-6 text-gray-800">Employee List</h2>
+
+    <!-- Add Employee Button -->
+    <div class="mb-4">
+        <a href="{% url 'add_employee' %}" class="bg-teal-500 text-white px-4 py-2 rounded-md">Add Employee</a>
+    </div>
+
+    <!-- Employee Table -->
+    <table class="w-full bg-white shadow-md rounded-lg overflow-hidden">
+        <thead class="bg-gray-200">
+            <tr>
+                <th class="px-4 py-2">Name</th>
+                <th class="px-4 py-2">Email</th>
+                <th class="px-4 py-2">Phone</th>
+                <th class="px-4 py-2">Department</th>
+                <th class="px-4 py-2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+            <tr class="border-t">
+                <td class="px-4 py-2">{{ employee.name }}</td>
+                <td class="px-4 py-2">{{ employee.email }}</td>
+                <td class="px-4 py-2">{{ employee.phone }}</td>
+                <td class="px-4 py-2">{{ employee.department }}</td>
+                <td class="px-4 py-2">
+                    <a href="{% url 'update_employee' employee.id %}" class="text-blue-600">Edit</a> |
+                    <a href="{% url 'delete_employee' employee.id %}" class="text-red-600">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center py-4 text-gray-500">No employees found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

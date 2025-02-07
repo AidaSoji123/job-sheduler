@@ -1,0 +1,170 @@
+{% extends 'owner/base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Main content section -->
+<div class="container mx-auto p-5">
+
+    <!-- Header -->
+    <h2 class="text-2xl font-semibold mb-6 text-center">JOBS</h2>
+
+  <!-- Add Job Button -->
+<div class="mb-6">
+    <button class="bg-teal-500 text-white px-6 py-3 rounded-md font-semibold" 
+        onclick="window.location.href='{% url 'addjob' %}'">
+        Add Job
+    </button>
+</div>
+
+    <!-- Filter Section -->
+    <div class="flex justify-between items-center bg-gray-200 p-4 rounded mb-6">
+        <div>
+            <label for="statusFilter" class="mr-2 font-bold text-lg">Filter by Status:</label>
+            <select id="statusFilter" class="p-2 border rounded">
+                <option value="all">All</option>
+                <option value="completed">Completed</option>
+                <option value="pending">Pending</option>
+            </select>
+        </div>
+        <div>
+            <label for="timeFilter" class="mr-2 font-bold text-lg">Filter by Time:</label>
+            <select id="timeFilter" class="p-2 border rounded">
+                <option value="all">All Time</option>
+                <option value="day">Today</option>
+                <option value="week">This Week</option>
+                <option value="month">This Month</option>
+                <option value="year">This Year</option>
+            </select>
+        </div>
+        <button onclick="filterJobs()" class="bg-teal-500 text-white px-6 py-3 rounded-md font-semibold">Apply Filter</button>
+    </div>
+
+    <!-- Job Table -->
+    <div id="jobContainer" class="overflow-x-auto">
+        <table class="w-full border-collapse border border-gray-300 text-left">
+            <thead>
+                <tr class="bg-blue-700 text-white">
+                    <th class="border border-gray-300 p-3 font-bold">Job Title</th>
+                    <th class="border border-gray-300 p-3 font-bold">Job Type</th>
+                    <th class="border border-gray-300 p-3 font-bold">Status</th>
+                    <th class="border border-gray-300 p-3 font-bold">Assigned Employee</th>
+                    <th class="border border-gray-300 p-3 font-bold">Created Date</th>
+                    <th class="border border-gray-300 p-3 font-bold">Last Updated</th>
+                    <th class="border border-gray-300 p-3 font-bold">Last Delivery Date</th>
+                    <th class="border border-gray-300 p-3 font-bold">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="border border-gray-300 p-3">Job 1</td>
+                    <td class="border border-gray-300 p-3">Type A</td>
+                    <td class="border border-gray-300 p-3">
+                        <select class="status-select p-2 border rounded">
+                            <option value="completed">Completed</option>
+                            <option value="pending">Pending</option>
+                        </select>
+                    </td>
+                    <td class="border border-gray-300 p-3">
+                        <!-- Employee Assignment Dropdown -->
+                        <select class="employee-select p-2 border rounded">
+                            <option value="" disabled selected>Select Employee</option>
+                            <option value="1">John Doe</option>
+                            <option value="2">Jane Smith</option>
+                            <option value="3">Michael Johnson</option>
+                        </select>
+                    </td>
+                    <td class="border border-gray-300 p-3">2025-01-01</td>
+                    <td class="border border-gray-300 p-3">2025-01-30</td>
+                    <td class="border border-gray-300 p-3">2025-02-10</td>
+                    <td class="border border-gray-300 p-3 flex space-x-2">
+                        <button class="bg-blue-500 text-white p-2 rounded-md">
+                            <i class="fas fa-eye"></i> <!-- View Icon -->
+                        </button>
+                        <button class="bg-green-500 text-white p-2 rounded-md">
+                            <i class="fas fa-pencil-alt"></i> <!-- Edit Icon -->
+                        </button>
+                        <button class="bg-red-500 text-white p-2 rounded-md">
+                            <i class="fas fa-trash-alt"></i> <!-- Delete Icon -->
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 p-3">Job 2</td>
+                    <td class="border border-gray-300 p-3">Type B</td>
+                    <td class="border border-gray-300 p-3">
+                        <select class="status-select p-2 border rounded">
+                            <option value="completed">Completed</option>
+                            <option value="pending">Pending</option>
+                        </select>
+                    </td>
+                    <td class="border border-gray-300 p-3">
+                        <!-- Employee Assignment Dropdown -->
+                        <select class="employee-select p-2 border rounded">
+                            <option value="" disabled selected>Select Employee</option>
+                            <option value="1">John Doe</option>
+                            <option value="2">Jane Smith</option>
+                            <option value="3">Michael Johnson</option>
+                        </select>
+                    </td>
+                    <td class="border border-gray-300 p-3">2025-01-15</td>
+                    <td class="border border-gray-300 p-3">2025-01-29</td>
+                    <td class="border border-gray-300 p-3">2025-02-12</td>
+                    <td class="border border-gray-300 p-3 flex space-x-2">
+                        <button class="bg-blue-500 text-white p-2 rounded-md">
+                            <i class="fas fa-eye"></i> <!-- View Icon -->
+                        </button>
+                        <button class="bg-green-500 text-white p-2 rounded-md">
+                            <i class="fas fa-pencil-alt"></i> <!-- Edit Icon -->
+                        </button>
+                        <button class="bg-red-500 text-white p-2 rounded-md">
+                            <i class="fas fa-trash-alt"></i> <!-- Delete Icon -->
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+function filterJobs() {
+    const statusFilter = document.getElementById("statusFilter").value;
+    const timeFilter = document.getElementById("timeFilter").value;
+
+    document.querySelectorAll("tbody tr").forEach(row => {
+        const statusSelect = row.querySelector(".status-select");
+        const statusValue = statusSelect ? statusSelect.value : "pending";
+        const statusMatch = statusFilter === "all" || statusFilter === statusValue;
+
+        // Placeholder for date-based filtering (adjust as needed)
+        const jobDate = row.cells[4].textContent; // Created Date
+        let timeMatch = true;
+        
+        if (timeFilter !== "all") {
+            const date = new Date(jobDate);
+            const now = new Date();
+            const diffTime = now - date;
+            const daysAgo = diffTime / (1000 * 3600 * 24);
+            
+            switch (timeFilter) {
+                case "day":
+                    timeMatch = daysAgo <= 1;
+                    break;
+                case "week":
+                    timeMatch = daysAgo <= 7;
+                    break;
+                case "month":
+                    timeMatch = daysAgo <= 30;
+                    break;
+                case "year":
+                    timeMatch = daysAgo <= 365;
+                    break;
+            }
+        }
+
+        row.style.display = statusMatch && timeMatch ? "table-row" : "none";
+    });
+}
+</script>
+{% endblock %}

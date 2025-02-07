@@ -1,0 +1,68 @@
+{% comment %} {% extends 'owner/base.html' %}
+{% load static %}
+  {% block style %}
+    <style>
+        .login{
+            background: url('./dist/images/login-new.jpeg')
+        }
+    </style>
+    {% endblock style %}
+    {% block content %} {% endcomment %}
+    {% load static %}
+    <!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta name="keywords" content="tailwind,tailwindcss,tailwind css,css,starter template,free template,admin templates, admin template, admin dashboard, free tailwind templates, tailwind example">
+        <!-- Css -->
+        <link rel="stylesheet" href="{% static 'assets/styles.css'%}">
+        <link rel="stylesheet" href="{% static 'assets/all.css'%}">
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i,700,700i" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <title>Job Scheduler</title>
+
+   </head>
+<body class="h-screen font-sans bg-cover">
+<div class="container mx-auto h-full flex flex-1 justify-center items-center">
+    <div class="w-full max-w-lg">
+        <div class="leading-loose login">
+            <form class="max-w-xl m-4 p-10 bg-white rounded shadow-xl" method="POST">
+                {% csrf_token %}
+                <p class="text-gray-800 font-medium">Register</p>
+                <div class="">
+                    <label class="block text-sm text-gray-00" for="username">Username</label>
+                    <input class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded"name="username" type="text" required="" placeholder="Enter username" aria-label="Name">
+                </div>
+                <div class="mt-2">
+                    <label class="block text-sm text-gray-600" for="password">Password</label>
+                    <input class="w-full px-5  py-4 text-gray-700 bg-gray-200 rounded"  name="password" type="text" required="" placeholder="Your password" aria-label="Email">
+                </div>
+                <div class="mt-2">
+                    <label class=" block text-sm text-gray-600" for="cus_email">Confirm password</label>
+                    <input class="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded" id="cus_email" name="confirm password" type="text" required="" placeholder="confirm password" aria-label="Email">
+                </div>
+              
+
+                <div class="mt-4">
+                    <button class="px-4 py-1 text-white font-light tracking-wider bg-gray-900 rounded" type="submit">Register</button>
+                </div>
+                <a class="inline-block right-0 align-baseline font-bold text-sm text-500 hover:text-blue-800" href="{% url 'login' %}">
+                    Already have an account ?
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+</div>
+<script src="{% static 'assets/main.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+
+</html>
